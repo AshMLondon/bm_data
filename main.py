@@ -3,6 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import pandas as pd
+import matplotlib.pyplot as plt
 import requests, json, os
 
 from datetime import date,timedelta
@@ -94,6 +95,11 @@ if __name__ == '__main__':
     new_df=model.df.loc[model.df['settlementPeriod']==1]
     print(new_df)
     print(new_df.describe())
+
+    # model.df.to_csv('data_out.csv')
+
+    model.df.plot()
+    plt.show()
 
 
 
