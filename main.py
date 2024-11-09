@@ -105,9 +105,9 @@ if __name__ == '__main__':
     first_date=date.fromisoformat(date.isoformat(model.df.min()["settlementDate"]))
     last_date= date.fromisoformat(date.isoformat(model.df.max()["settlementDate"]))
 
-    values = st.slider('Select a range of values',first_date, last_date,(first_date,last_date),format="DD-MMM-YYYY")
-    st.write(values)
-    print(values)
+    values = st.sidebar.slider('Date range',first_date, last_date,(first_date,last_date),format="DD-MMM-YYYY")
+    # st.write(values)
+    # print(values)
     lower_date_select=values[0] #date.isoformat(values[0])
     upper_date_select=values[1] #date.isoformat(values[1])
     # st.write(lower_date_select,upper_date_select)
@@ -129,10 +129,36 @@ if __name__ == '__main__':
     long=selected.loc[selected['netImbalanceVolume']<0]
 
 
+    short_low=round(short.min()["systemBuyPrice"]-1)
+    short_hi=round(short.max()["systemBuyPrice"]+1)
+    # st.write(short_low,short_hi)
+    # short_min=140
+    short_min=st.sidebar.slider("Min price when short",short_low,short_hi)
+
+    short_all_len=short.shape[0]
+    short=short.loc[short['systemBuyPrice']>=short_min]
+    short_filtered=short.shape[0]
 
 
+
+    long_all_len=long.shape[0]
+    long_low = round(long.min()["systemBuyPrice"] - 1)
+    long_hi = round(long.max()["systemBuyPrice"] + 1)
+    long_max = st.sidebar.slider("Max price when long", long_low, long_hi,long_hi)
+
+    long = long.loc[long['systemBuyPrice']<=long_max]
+    long_filtered=long.shape[0]
+
+
+
+
+
+
+    st.write(f"SYSTEM SHORT {short_filtered} periods out of {short_all_len} price >={short_min}  = {round(short_filtered/short_all_len*100,1)}%")
     st.line_chart(short, y="systemBuyPrice")
+    st.write(f"SYSTEM LONG {long_filtered} periods out of {long_all_len} price <={long_max}  = {round(long_filtered/long_all_len*100,1)}%")
     st.line_chart(long, y="systemBuyPrice")
+
 
 
     # selected=model.df.loc[lower_date_select<model.df['settlementDate']<=upper_date_select]
