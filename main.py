@@ -102,15 +102,8 @@ if __name__ == '__main__':
     # print(new_df.describe())
 
 
-
-
-    # x = st.slider("Select a value")
-    # st.write(x, "squared is", x * x)
-
     first_date=date.fromisoformat(date.isoformat(model.df.min()["settlementDate"]))
     last_date= date.fromisoformat(date.isoformat(model.df.max()["settlementDate"]))
-
-
 
     values = st.slider('Select a range of values',first_date, last_date,(first_date,last_date),format="DD-MMM-YYYY")
     st.write(values)
@@ -120,20 +113,26 @@ if __name__ == '__main__':
     # st.write(lower_date_select,upper_date_select)
 
 
-    # print(model.df[0])
-    # print(model.df[19050])
-
-    d1=date.fromisoformat("2024-02-01")
-    d2=date.fromisoformat("2024-03-01")
-
-
-    print("DDD",d1,"   ",d2)
-    model.df = model.df.set_index(['settlementDate'])
+    # d1=date.fromisoformat("2024-02-01")
+    # d2=date.fromisoformat("2024-03-01")
     # selected = model.df.loc[d1:d2]
-    selected = model.df.loc[lower_date_select:upper_date_select]
-    print(selected.describe)
 
-    st.line_chart(selected, y="systemBuyPrice")
+    model.df = model.df.set_index(['settlementDate'])
+
+    selected = model.df.loc[lower_date_select:upper_date_select]
+    # print(selected.describe)
+
+    #now split by long and short
+    #SHORT -- NIV is positive
+
+    short=selected.loc[selected['netImbalanceVolume']>=0]
+    long=selected.loc[selected['netImbalanceVolume']<0]
+
+
+
+
+    st.line_chart(short, y="systemBuyPrice")
+    st.line_chart(long, y="systemBuyPrice")
 
 
     # selected=model.df.loc[lower_date_select<model.df['settlementDate']<=upper_date_select]
