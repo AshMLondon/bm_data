@@ -30,7 +30,7 @@ class Model():
     def save_data_from_elexon(self):
         print("NO FILE - HAVING TO LOAD FROM ELEXON")
         base_url="https://data.elexon.co.uk/bmrs/api/v1/balancing/settlement/system-prices/"
-        start_date=date.fromisoformat("2023-11-01")
+        start_date=date.fromisoformat("2022-10-01")
         # end_date=date.fromisoformat("2024-01-31")
         end_date = date.fromisoformat("2024-10-31")
 
