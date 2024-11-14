@@ -14,7 +14,7 @@ from datetime import date,timedelta
 class Model():
 
     def __init__(self):
-        self.data_filename="data_stored.json"
+        self.data_filename="data_stored2.json"
         self.raw_data=[]
         if os.path.isfile(self.data_filename):
             print("FILE EXISTS!")
